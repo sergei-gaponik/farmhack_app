@@ -39,8 +39,8 @@ class BodyState extends State<Body> {
     Map res = await Fetcher.fetch('post', 'api/login', body: body);
     print(res);
     if (res['status'] == 'success') {
-      _storage.write(key: 'user', value: usernameController.text);
-      _storage.write(key: 'hash', value: res['passwordHash']);
+      await _storage.write(key: 'user', value: usernameController.text);
+      await _storage.write(key: 'hash', value: res['passwordHash']);
       Navigator.pushNamed(context, '/home');
     } else
       return false;
@@ -52,7 +52,7 @@ class BodyState extends State<Body> {
         child: Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
@@ -81,8 +81,8 @@ class BodyState extends State<Body> {
             height: 40,
             child: SubmitButton(
               onPressed: handleSubmit,
-              init: 'Speichern',
-              success: 'Erfolgreich gespeichert',
+              init: 'Anmelden',
+              success: 'Erfolgreich angemeldet',
               loading: 'Wird überprüft',
               failure: 'Falsche Login-Daten',
             ),
@@ -91,10 +91,10 @@ class BodyState extends State<Body> {
             height: 40,
             child: SubmitButton(
               onPressed: () => Navigator.pushNamed(context, '/register'),
-              init: 'Speichern',
+              init: 'Registrieren',
               success: 'Erfolgreich gespeichert',
               loading: 'Wird überprüft',
-              failure: 'Falsche Login-Daten',
+              failure: 'Bitte überprüfe deine Eingaben',
             ),
           )
         ],
