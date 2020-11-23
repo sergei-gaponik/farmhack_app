@@ -1,18 +1,16 @@
-import 'package:bauer_nebenan/screens/init/init_screen.dart';
-import 'package:bauer_nebenan/screens/product/product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'constants.dart';
-import 'screens/init/init_screen.dart';
-import 'screens/login/login_screen.dart';
 import 'models/ProductsProvider.dart';
+import 'models/LoadingProvider.dart';
 import 'models/CartProvider.dart';
-import 'screens/cart/cart_screen.dart';
+import 'route_generator.dart';
 
 void main() => runApp(MultiProvider(providers: [
       ChangeNotifierProvider(create: (context) => CartProvider()),
       ChangeNotifierProvider(create: (context) => ProductsProvider()),
+      ChangeNotifierProvider(create: (context) => LoadingProvider()),
     ], child: App()));
 
 class App extends StatelessWidget {
@@ -21,19 +19,20 @@ class App extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Bauer Nebenan',
         theme: ThemeData(
-          textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
+          textTheme: Theme.of(context).textTheme.apply(
+                bodyColor: kTextColor,
+                fontFamily: 'Montserrat',
+                fontSizeFactor: 1.1,
+              ),
           visualDensity: VisualDensity.adaptivePlatformDensity,
           colorScheme: ColorScheme.light(
             primary: Colors.green[800],
           ),
           primaryColor: Colors.green[800],
+          scaffoldBackgroundColor: Colors.grey[100],
+          fontFamily: 'Montserrat',
         ),
-        home: InitProductsScreen(),
-        routes: {
-          '/home': (context) => InitProductsScreen(),
-          '/login': (context) => LoginScreen(),
-          '/cart': (context) => CartScreen(),
-          '/product': (context) => ProductScreen(),
-        },
+        initialRoute: '/',
+        onGenerateRoute: RouteGenerator.generateRoute,
       );
 }

@@ -2,8 +2,6 @@ import 'package:bauer_nebenan/models/Product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../constants.dart';
-
 class CartItem extends StatelessWidget {
   final Product product;
   CartItem({this.product});
@@ -15,19 +13,21 @@ class CartItem extends StatelessWidget {
           Container(
             width: 80,
             height: 80,
-            padding: EdgeInsets.all(kDefaultPadding),
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Hero(
-              tag: "${product.id}",
-              child: Image.network(product.images[0]),
+            child: Image.network(
+              product.images[0],
+              fit: BoxFit.cover,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Expanded(child: Text(product.title)),
+          Expanded(
+            child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Container(child: Text(product.title))),
           ),
           Container(
             width: 80,

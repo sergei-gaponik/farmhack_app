@@ -1,5 +1,6 @@
 import 'package:bauer_nebenan/models/CartProvider.dart';
 import 'package:bauer_nebenan/models/Product.dart';
+import 'package:bauer_nebenan/models/ProductsProvider.dart';
 import 'package:flutter/material.dart';
 import 'info.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +20,7 @@ class _ItemCountState extends State<ItemCount> {
   _ItemCountState({this.product});
 
   void initState() {
+    product = Provider.of<ProductsProvider>(context).current;
     _updateText(product.quantitySelected);
     super.initState();
   }
@@ -74,20 +76,20 @@ class _ItemCountState extends State<ItemCount> {
 }
 
 class Body extends StatefulWidget {
-  final Product product;
-
   Body({this.product});
+
+  final Product product;
 
   @override
   _BodyState createState() => _BodyState();
 }
 
 class _BodyState extends State<Body> {
-  bool _disabled;
+  bool _added;
 
   @override
   void initState() {
-    _disabled = false;
+    _added = false;
     super.initState();
   }
 
@@ -109,35 +111,34 @@ class _BodyState extends State<Body> {
           ),
           Expanded(
               flex: 3,
-              child: ProductInfo(
-                product: widget.product,
-              )),
-          Container(
-              height: 100,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(36),
+                  color: Colors.grey[100],
+                ),
+                child: Stack(
+                  //alignment: Alignment.center,
                   children: [
-                    Container(
-                      width: 250,
-                      height: 48,
-                      margin: EdgeInsets.all(12),
-                      child: SubmitButton(
-                          init: 'In den Warenkorb',
-                          success: 'Hinzugefügt',
-                          onPressed: _disabled
-                              ? null
-                              : () async {
-                                  Provider.of<CartProvider>(context,
-                                          listen: false)
-                                      .cart
-                                      .add(widget.product);
-                                  setState(() {
-                                    _disabled = true;
-                                  });
-                                  return true;
-                                }),
+                    ProductInfo(
+                      product: widget.product,
+                    ),
+                    Positioned.fill(
+                      top: 100,
+                      bottom: 24.0,
+                      child: SizedBox(
+                        height: 60.0,
+                        child: ElevatedButton(
+                          child: Text('In den Warenkorb'),
+                          onPressed: () {
+                            Provider.of<CartProvider>(context, listen: false)
+                                .add(widget.product);
+                          },
+                        ),
+                      ),
                     )
-                  ]))
+                  ],
+                ),
+              )),
         ],
       ));
 }

@@ -1,12 +1,9 @@
 import 'package:bauer_nebenan/models/Product.dart';
-import 'package:bauer_nebenan/models/ProductsProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../models/CartProvider.dart';
 import '../../../models/Products.dart';
-import '../../../models/ProductsProvider.dart';
 import '../../../constants.dart';
-import '../../../widgets/buttons.dart';
 import 'item.dart';
 
 class Body extends StatefulWidget {
@@ -31,6 +28,18 @@ class _BodyState extends State<Body> {
     print(cart);
     return Column(
       children: [
+        Container(
+          height: 36,
+          child: Center(
+            child: Text(
+              'Dein Warenkorb',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline4
+                  .copyWith(fontWeight: FontWeight.bold, fontSize: 24),
+            ),
+          ),
+        ),
         Expanded(
           child: Padding(
               padding: const EdgeInsets.symmetric(
@@ -42,20 +51,29 @@ class _BodyState extends State<Body> {
               )),
         ),
         Container(
-            height: 100,
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Container(
-                width: 250,
-                height: 48,
-                margin: EdgeInsets.all(12),
-                child: SubmitButton(
-                  init: 'In den Warenkorb',
-                  success: 'Hinzugefügt',
-                  onPressed: submit,
+          height: 96,
+          margin: EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              IntrinsicWidth(
+                child: SizedBox(
+                  height: 48,
+                  child: ElevatedButton(
+                    child: Text('Jetzt bestellen'),
+                    onPressed: () async {
+                      var res = await submit();
+                      print(res);
+                      Navigator.of(context)
+                          .pushNamed('/checkout', arguments: res);
+                    },
+                  ),
                 ),
               )
-            ]))
+            ],
+          ),
+        )
       ],
     );
   }

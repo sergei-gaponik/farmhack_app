@@ -38,7 +38,7 @@ class Product {
   String get displayPrice => '${_formatPrice(this.price)} € / ${this.unit}';
 
   String get priceAndQuantity =>
-      '${this.quantitySelected}x ${_formatPrice(this.total)}€';
+      '${this.quantitySelected} x ${_formatPrice(this.price)} €';
 
   factory Product.fromJSON(Map<String, dynamic> json) => Product(
         id: json['id'] ?? null,

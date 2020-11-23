@@ -35,13 +35,12 @@ class BodyState extends State<Body> {
       "username": usernameController.text,
       "password": passwordController.text,
     };
-    print(body);
     Map res = await Fetcher.fetch('post', 'api/login', body: body);
-    print(res);
     if (res['status'] == 'success') {
       await _storage.write(key: 'user', value: usernameController.text);
       await _storage.write(key: 'hash', value: res['passwordHash']);
-      Navigator.pushNamed(context, '/home');
+      Navigator.pushNamed(context, '/init');
+      return true;
     } else
       return false;
   }
@@ -63,38 +62,42 @@ class BodyState extends State<Body> {
             ),
           ),
           Container(
-              margin: EdgeInsets.only(bottom: 10),
+              margin: EdgeInsets.only(bottom: 12),
               child: TextFormField(
                 controller: usernameController,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(), labelText: 'E-Mail Adresse'),
               )),
           Container(
-              margin: EdgeInsets.only(bottom: 10),
+              margin: EdgeInsets.only(bottom: 12),
               child: TextFormField(
                 controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(), labelText: 'Passwort'),
               )),
-          SizedBox(
-            height: 40,
-            child: SubmitButton(
-              onPressed: handleSubmit,
-              init: 'Anmelden',
-              success: 'Erfolgreich angemeldet',
-              loading: 'Wird überprüft',
-              failure: 'Falsche Login-Daten',
+          Container(
+            margin: EdgeInsets.only(bottom: 18),
+            child: SizedBox(
+              height: 40,
+              child: SubmitButton(
+                onPressed: handleSubmit,
+                init: 'Anmelden',
+                success: 'Erfolgreich angemeldet',
+                loading: 'Wird überprüft',
+                failure: 'Falsche Login-Daten',
+              ),
             ),
           ),
-          SizedBox(
-            height: 40,
-            child: SubmitButton(
-              onPressed: () => Navigator.pushNamed(context, '/register'),
-              init: 'Registrieren',
-              success: 'Erfolgreich gespeichert',
-              loading: 'Wird überprüft',
-              failure: 'Bitte überprüfe deine Eingaben',
+          Container(
+            margin: EdgeInsets.only(bottom: 18),
+            child: SizedBox(
+              height: 40,
+              child: ElevatedButton(
+                  child: Text('Registrieren'),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/register');
+                  }),
             ),
           )
         ],

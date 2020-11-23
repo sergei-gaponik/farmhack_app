@@ -20,7 +20,7 @@ class Fetcher {
     return auth;
   }
 
-  static Future<http.Response> _authenticate(method, String url,
+  static Future<http.Response> authenticate(method, String url,
       {Map body, Map headers, int counter = 1}) async {
     if (counter > 2) throw Exception('too many attempts ($counter)');
 
@@ -44,7 +44,21 @@ class Fetcher {
 
     http.Response response;
 
-    response = await _authenticate(method, url, headers: headers, body: body);
-    return jsonDecode(response.body);
+    response = await authenticate(method, url, headers: headers, body: body);
+    Map json = jsonDecode(response.body);
+    print(json);
+    if (json['status'] == 'failure')
+      throw (json['msg']);
+    else
+      return json;
+  }
+
+  static Future<bool> get loggedIn async {
+    try {
+      await fetch('get', 'api/loading');
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

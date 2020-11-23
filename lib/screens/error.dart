@@ -11,37 +11,41 @@ class ErrorScreen extends StatelessWidget {
       this.message = ''});
 
   @override
-  Widget build(BuildContext context) => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-              margin: EdgeInsets.all(24),
-              alignment: Alignment.center,
-              child: Icon(Icons.error, size: 60)),
-          Container(
-              margin: EdgeInsets.all(24),
-              alignment: Alignment.center,
-              child: Column(
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  if (message != '')
-                    Container(
-                      child: Text(
-                        message,
-                        style: TextStyle(fontSize: 14),
-                        textAlign: TextAlign.center,
+  Widget build(BuildContext context) => Scaffold(
+        body: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                  margin: EdgeInsets.all(24),
+                  alignment: Alignment.center,
+                  child: Icon(Icons.error, size: 60)),
+              Container(
+                  margin: EdgeInsets.all(24),
+                  alignment: Alignment.center,
+                  child: Column(
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(fontSize: 20),
                       ),
-                      margin: EdgeInsets.only(top: 12),
-                    )
-                ],
-              )),
-          Container(
-              margin: EdgeInsets.all(24),
-              alignment: Alignment.center,
-              child: body ?? Container())
-        ],
+                      if (message != '')
+                        Container(
+                          child: Text(
+                            message,
+                            style: TextStyle(fontSize: 14),
+                            textAlign: TextAlign.center,
+                          ),
+                          margin: EdgeInsets.only(top: 12),
+                        )
+                    ],
+                  )),
+              Container(
+                  margin: EdgeInsets.all(24),
+                  alignment: Alignment.center,
+                  child: body ?? Container())
+            ],
+          ),
+        ),
       );
 }

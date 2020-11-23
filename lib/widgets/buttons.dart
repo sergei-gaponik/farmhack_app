@@ -45,19 +45,20 @@ class SubmitButton extends StatefulWidget {
 
 class _SubmitButtonState extends State<SubmitButton> {
   SubmitButton button;
-  _SubmitButtonState({this.button});
+  _SubmitButtonState({this.button, this.style});
 
-  Widget buttonContent;
+  Widget _buttonContent;
+  ButtonStyle style;
 
   @override
   void initState() {
-    buttonContent = Text(button.init);
+    _buttonContent = Text(button.init);
     super.initState();
   }
 
   void _handleSubmit() {
     setState(() {
-      buttonContent = FutureBuilder(
+      _buttonContent = FutureBuilder(
         future: button.onPressed(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting)
@@ -86,6 +87,37 @@ class _SubmitButtonState extends State<SubmitButton> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      ElevatedButton(onPressed: _handleSubmit, child: buttonContent);
+  Widget build(BuildContext context) => ElevatedButton(
+        onPressed: _handleSubmit,
+        child: _buttonContent,
+        style: style ?? null,
+      );
+}
+
+class StretchedButton extends StatelessWidget {
+  final Function onPressed;
+  final Widget child;
+
+  StretchedButton({this.child, this.onPressed});
+
+  @override
+  Widget build(BuildContext context) => Container(
+        height: 96,
+        margin: EdgeInsets.symmetric(horizontal: 24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            IntrinsicWidth(
+              child: SizedBox(
+                height: 48,
+                child: ElevatedButton(
+                  child: this.child,
+                  onPressed: this.onPressed,
+                ),
+              ),
+            )
+          ],
+        ),
+      );
 }

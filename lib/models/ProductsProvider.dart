@@ -1,7 +1,6 @@
 import 'package:bauer_nebenan/util/fetch.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'dart:async';
 
 import '../util/fetch.dart';
@@ -23,6 +22,6 @@ class ProductsProvider extends ChangeNotifier {
     if (productsJSON.isEmpty) throw ('Keine Produkte gefunden');
     products = Products.fromList(productsJSON);
     notifyListeners();
-    return products;
+    return Future.delayed(Duration(milliseconds: 3500));
   }
 }

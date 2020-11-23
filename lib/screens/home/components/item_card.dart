@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../../models/Product.dart';
-import '../../../models/ProductsProvider.dart';
+import 'package:transparent_image/transparent_image.dart';
 
+import '../../../models/Product.dart';
 import '../../../constants.dart';
 
 class ItemCard extends StatelessWidget {
@@ -37,7 +36,10 @@ class ItemCard extends StatelessWidget {
               ),
               child: Hero(
                 tag: "${product.id}",
-                child: Image.network(product.images[0]),
+                child: FadeInImage.memoryNetwork(
+                  placeholder: kTransparentImage,
+                  image: product.images[0],
+                ),
               ),
             ),
           ),

@@ -1,4 +1,3 @@
-import 'package:bauer_nebenan/screens/cart/cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
@@ -17,7 +16,7 @@ class TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) => AppBar(
         elevation: 0,
-        backgroundColor: Color(0x00EFEFFE),
+        backgroundColor: Colors.grey[100], //Color(0x00EFEFFE),
         leading: IconButton(
           icon: SvgPicture.asset("assets/icons/back.svg",
               color: Colors.green[800]),

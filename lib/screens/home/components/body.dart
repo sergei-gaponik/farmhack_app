@@ -5,9 +5,7 @@ import '../../../constants.dart';
 import '../../../models/Product.dart';
 import '../../../models/Products.dart';
 import '../../../models/ProductsProvider.dart';
-import '../../product/product_screen.dart';
 
-import 'categories.dart';
 import 'item_card.dart';
 
 class Body extends StatefulWidget {
@@ -55,15 +53,11 @@ class _BodyState extends State<Body> {
                 childAspectRatio: 0.75,
               ),
               itemBuilder: (context, index) => ItemCard(
-                    product: productList[index],
-                    press: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProductScreen(
-                            product: productList[index],
-                          ),
-                        )),
-                  )),
+                  product: productList[index],
+                  press: () {
+                    Navigator.of(context)
+                        .pushNamed('/product', arguments: productList[index]);
+                  })),
         )),
       ],
     );

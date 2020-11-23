@@ -47,13 +47,14 @@ class BodyState extends State<Body> {
       "lastName": lastNameController.text,
       "address": addressController.text,
     };
-    Map res = await Fetcher.fetch('post', 'api/login', body: body);
+    Map res = await Fetcher.fetch('post', 'api/account', body: body);
+    print(res);
     if (res['status'] == 'success') {
       _storage.write(key: 'user', value: usernameController.text);
       _storage.write(key: 'hash', value: res['passwordHash']);
-      Navigator.pushNamed(context, '/home');
-    } else
-      return false;
+      Navigator.pushNamed(context, '/init');
+    }
+    return res;
   }
 
   @override
@@ -62,13 +63,13 @@ class BodyState extends State<Body> {
         child: Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
             margin: EdgeInsets.only(bottom: 20),
             child: Text(
-              'HEDO Console Zugangsdaten',
+              'Bitte gib deine Daten ein',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ),
@@ -91,7 +92,6 @@ class BodyState extends State<Body> {
               margin: EdgeInsets.only(bottom: 10),
               child: TextFormField(
                 controller: firstNameController,
-                obscureText: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(), labelText: 'Vorname'),
               )),
@@ -99,7 +99,6 @@ class BodyState extends State<Body> {
               margin: EdgeInsets.only(bottom: 10),
               child: TextFormField(
                 controller: lastNameController,
-                obscureText: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(), labelText: 'Nachname'),
               )),
@@ -107,7 +106,6 @@ class BodyState extends State<Body> {
               margin: EdgeInsets.only(bottom: 10),
               child: TextFormField(
                 controller: addressController,
-                obscureText: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(), labelText: 'Adresse'),
               )),
@@ -115,10 +113,11 @@ class BodyState extends State<Body> {
             height: 40,
             child: SubmitButton(
               onPressed: handleSubmit,
-              init: 'Speichern',
+              showMsg: true,
+              init: 'Jetzt registrieren',
               success: 'Erfolgreich gespeichert',
               loading: 'Wird überprüft',
-              failure: 'Falsche Login-Daten',
+              failure: 'Bitte überprüfe deine Eingaben',
             ),
           )
         ],
